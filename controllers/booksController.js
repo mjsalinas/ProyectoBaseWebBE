@@ -34,13 +34,36 @@ exports.createBook = async (req, res) => {
     }
     return res;
 };
-// exports.updateBook = async (req, res) => {
-//     const { data, error } = ;
+// Actualizar un libro
+exports.updateBook = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title, author, description, publication_year } = req.body;
 
-//     return res;
-// };
-// exports.deleteBook = async (req, res) => {
-//     const { data, error } = ;
+    const { data, error } = await supabaseAnonClient
+      .from("books")
+      .update({ title, author, description, published_year })
+      .eq("id", id);
 
-//     return res;
-// };
+    if (error) throw error;
+    res.status(200).json({ data: data[0] });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
+// Eliminar un libro
+exports.deleteBook = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { error } = await supabaseAnonClient
+      .from("books")
+      .delete()
+      .eq("id", id);
+
+    if (error) throw error;
+    res.status(204).send(); // No content en response
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
