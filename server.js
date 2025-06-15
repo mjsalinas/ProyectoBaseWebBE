@@ -8,6 +8,7 @@ app.use(express.json());
 
 //Rutas
 app.use('/api/auth', require('./routes/authRoutes'));
+app.use('/api/books', require('./routes/booksRoutes'));
 
 const PORT = process.env.PORT || 3001;
 app.listen(

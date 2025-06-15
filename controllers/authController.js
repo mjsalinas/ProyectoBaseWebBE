@@ -16,10 +16,11 @@ exports.registerUser = async (req, res) =>{
 };
 exports.loginUser = async(req,res)=> {
     const {email, password} = req.body;
-    const {data, error} = await supabaseAdmin.admin.auth.signInWithPassword(
+    const {data, error} = await supabaseAnonClient.auth.signInWithPassword(
         {email, password});
     if(error) return res.status(401).json({error: error.message});
     res.json({session: data.session, user: data.user})
+    return res
 }
 
 
